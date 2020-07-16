@@ -16,7 +16,11 @@ module.exports = [
                     exclude: /node_modules/
                 },
                 {
-                    use: ['css-loader', 'sass-loader', 'style-loader'],
+                    use: [ 
+                        'style-loader',
+                        'css-loader',
+                        'sass-loader'  
+                    ],
                     test: /\.s?css$/
                 }
             ]
@@ -26,7 +30,7 @@ module.exports = [
             historyApiFallback: true
         },
         devtool: 'cheap-module-eval-source-map'
-    },
+    }/*,
     {
         name: 'server',
         target: 'node',
@@ -35,5 +39,5 @@ module.exports = [
             filename: 'bundle.js',
             path: path.resolve(__dirname, 'public/server')
         }
-    }
+    }*/
 ];
