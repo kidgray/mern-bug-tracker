@@ -5,7 +5,7 @@ import BugRow from '../bug-row/bug-row.component.jsx';
 
 const BugTable = () => {
     return (
-        <table>
+        <table className='bug-table'>
             <tbody>
                 <tr>
                     <th>ID</th>
