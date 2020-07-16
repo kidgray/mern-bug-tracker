@@ -1,10 +1,22 @@
 import React from 'react';
 
+// COMPONENTS
+import BugRow from '../bug-row/bug-row.component.jsx';
+
 const BugTable = () => {
     return (
-        <div>
-            <p>This is where the actual table that lists the bugs will go.</p>
-        </div>
+        <table>
+            <tbody>
+                <tr>
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Description</th>
+                </tr>
+                
+                <BugRow id={1} status={'Open'} priority={'1'} description={'This is a test'} />
+            </tbody>
+        </table>
     );
 };
 
