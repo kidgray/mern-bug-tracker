@@ -9,7 +9,8 @@ import './styles/styles.scss';
 import 'normalize.css/normalize.css';
 
 const App = () => {
-    return (<div>
+    return (
+    <div>
         <BugTrackerApp />
     </div>);
 };

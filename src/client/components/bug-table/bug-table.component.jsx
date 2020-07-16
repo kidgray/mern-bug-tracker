@@ -3,7 +3,7 @@ import React from 'react';
 // COMPONENTS
 import BugRow from '../bug-row/bug-row.component.jsx';
 
-const BugTable = () => {
+const BugTable = (props) => {
     return (
         <table className='bug-table'>
             <tbody>
@@ -14,7 +14,14 @@ const BugTable = () => {
                     <th>Description</th>
                 </tr>
                 
-                <BugRow id={1} status={'Open'} priority={'1'} description={'This is a test'} />
+                { 
+                    props.bugs.map((bug) => 
+                        <BugRow 
+                            key={bug.id} 
+                            {...bug}
+                        />
+                    )
+                }
             </tbody>
         </table>
     );
