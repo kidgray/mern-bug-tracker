@@ -6,7 +6,7 @@ module.exports = [
         entry: './src/client/app.js',
         output: {
             filename: 'bundle.js',
-            path: path.resolve(__dirname, 'public/client')
+            path: path.resolve(__dirname, 'public')
         },
         module: {
             rules: [
@@ -18,7 +18,7 @@ module.exports = [
             ]
         },
         devServer: {
-            contentBase: path.join(__dirname, 'public/client'),
+            contentBase: path.join(__dirname, 'public'),
             historyApiFallback: true
         },
         devtool: 'cheap-module-eval-source-map'
