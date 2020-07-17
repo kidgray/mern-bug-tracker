@@ -15,9 +15,9 @@ const AddBug = (props) => {
         const bugPriority = event.target.elements.priority.value.trim();
         const bugDescription = event.target.elements.description.value.trim();
 
-        // If the user entered a valid priority AND description for the bug, create
-        // a new bug object; otherwise, simply set this to null, which will result in
-        // an error when the callback function is called below
+        // If the user entered a valid input, create a new bug object. 
+        // Otherwise, simply set this to null, which will result in
+        // an error being displayed when the callback function is called below
         const newBug = (bugPriority && bugDescription) 
                        ? { priority: bugPriority, description: bugDescription }
                        : null;
@@ -31,11 +31,11 @@ const AddBug = (props) => {
         // Update the error field based on the result of calling the update function above.
         setError(error);
 
-        // If there was no error, clear the input field
+        // If there was no error, clear the input fields
         if (!error) {
+            event.target.elements.priority.value = '';
             event.target.elements.description.value = '';
         }
-
     }
 
     return (

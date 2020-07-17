@@ -6,23 +6,8 @@ import BugTable from '../bug-table/bug-table.component.jsx';
 import AddBug from '../add-bug/add-bug.component.jsx';
 
 const BugList = (props) => {
-    const examples = [
-        {
-            id: 1,
-            status: 'Open',
-            priority: 'P1',
-            description: 'Testing'
-        },
-        {
-            id: 2,
-            status: 'Pending',
-            priority: 'P2',
-            description: 'Testing again'
-        }
-    ]
-
     // State variable for the list of bugs
-    const [bugs, setBugs] = useState(examples);
+    const [bugs, setBugs] = useState([]);
 
     // Handler function for adding new bugs.
     const handleAddBug = (bug) => {
