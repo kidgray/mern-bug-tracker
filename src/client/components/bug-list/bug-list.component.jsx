@@ -24,13 +24,33 @@ const BugList = (props) => {
     // State variable for the list of bugs
     const [bugs, setBugs] = useState(examples);
 
+    // Handler function for adding new bugs.
+    const handleAddBug = (bug) => {
+        // If no bug was passed
+        if (!bug) {
+            return 'One or more fields were left blank. Please fill out all the fields.';
+        }
+
+        // Update the state, adding the new bug to the end of the bugs array
+        setBugs([
+            ...bugs, 
+            { 
+                id: bugs.length + 1, 
+                status: 'Open', 
+                priority: bug.priority, 
+                description: bug.description 
+            }
+        ]);
+    };
+
     return (
         <div>
             <BugFilter />
 
-            <BugTable bugs={bugs}/>
+            <BugTable bugs={bugs} />
 
-            <AddBug />
+            <AddBug handleAddBug={handleAddBug} />
+
         </div>
     );
 };

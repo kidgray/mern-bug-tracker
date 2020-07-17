@@ -1,5 +1,6 @@
 // BASE STYLES & SETTINGS
-@import './base/base';
+@import './base/base.scss';
+@import './base/settings.scss';
 
 // COMPONENT STYLES
 @import '../components/bug-table/bug-table.styles.scss';
