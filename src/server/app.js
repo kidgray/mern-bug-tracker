@@ -10,26 +10,7 @@ const url = 'mongodb://localhost:27017';
 // Variable for database
 let db;
 
-// Data calls
-(async () => {
-    // Create new MongoDB client instance. useUnifiedTopology must be
-    // set to true to avoid DeprecationWarning when running server from Node.js
-    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-
-    try {
-        // Attempt to connect to server
-        await client.connect();
-        console.log("Successfully connected to server!");
-
-        // Retrieve the Bug Tracker Database
-        db = client.db("bugtrackerdb");
-    }
-    // If connection attempt fails, log error to console
-    catch (error) {
-        console.log(error);
-    }
-})();
-
+// Variables for Express connection
 const app = express();
 const port = 3000;
 
@@ -81,4 +62,25 @@ app.post('/api/bugs', (req, res) => {
     res.json(newBug);
 });
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+// Initialize Server & DB connection
+(async () => {
+    // Create new MongoDB client object. useUnifiedTopology must be
+    // set to true to avoid DeprecationWarning when running server from Node.js
+    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
+    try {
+        // Attempt to connect to server using MongoDB client object
+        await client.connect((err, dbConnection) => {
+            // Retrieve the Bug Tracker DB and assign it to db
+            // for future use
+            db = client.db("bugtrackerdb");
+
+            // Start connection to server
+            app.listen(port, () => console.log(`Server listening at http://localhost:${port}`));
+        });
+    }
+    // If connection attempt fails, log error to console
+    catch (error) {
+        console.log(error);
+    }
+})();
