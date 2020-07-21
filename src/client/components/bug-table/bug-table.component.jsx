@@ -17,7 +17,7 @@ const BugTable = (props) => {
                 { 
                     props.bugs.map((bug) => 
                         <BugRow 
-                            key={bug.id} 
+                            key={bug._id} 
                             {...bug}
                         />
                     )

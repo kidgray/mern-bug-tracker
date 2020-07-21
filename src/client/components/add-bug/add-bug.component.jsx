@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import $ from 'jquery';
+
 const AddBug = (props) => {
     // State variable for errors. Will be used for input validation.
     const [error, setError] = useState(null);

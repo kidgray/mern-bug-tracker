@@ -12,11 +12,11 @@ const BugList = (props) => {
     // This Effect Hook sets the initial State of the bugs array.
     useEffect(() => {
         // Attempt to get initial State from server with an
-        // AJAX request. If succesful, initialize the bugs array
-        // with the data received; otherwise, initialize bugs array
+        // AJAX request. If succesful, populate the bugs array
+        // with the data received; otherwise, set the bugs array
         // to an empty array.
         $.getJSON("http://localhost:3000/api/bugs", (data) => setBugs(data || []));
-    }, []);
+    });
 
     // State variable for the list of bugs. State variable will be
     // set in the single-run Effect Hook that makes an AJAX request
@@ -30,16 +30,23 @@ const BugList = (props) => {
             return 'One or more fields were left blank. Please fill out all the fields.';
         }
 
-        // Update the state, adding the new bug to the end of the bugs array
-        setBugs([
-            ...bugs, 
-            { 
-                id: bugs.length + 1, 
-                status: 'Open', 
-                priority: bug.priority, 
-                description: bug.description 
+        console.log(bug);
+        
+        // HTTP POST request that sends the new bug to the server.
+        // NOTE: Make sure to use ajax() and not post(), because post()
+        // defaults to contentType of application/x-www-form-urlencoded
+        // and NOT JSON, so using post() will result in req.body always
+        // being an empty object (due to mismatched contentType, since we're 
+        // sending a JSON object here)
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:3000/api/bugs',
+            contentType: 'application/json',
+            data: JSON.stringify(bug),
+            success: (newBug) => {
+                setBugs([...bugs, newBug]);
             }
-        ]);
+        });
     };
 
     return (
