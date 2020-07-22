@@ -17,6 +17,12 @@ const AddBug = (props) => {
         const bugPriority = event.target.elements.priority.value.trim();
         const bugDescription = event.target.elements.description.value.trim();
 
+        // If either the priority or description fields were left blank
+        if (!bugPriority || !bugDescription) {
+            // User MUST enter values for both fields. Otherwise, print an error.
+            setError('One or more fields were left blank. Please fill out all the fields.');
+        }
+
         // If the user entered a valid input, create a new bug object. 
         // Otherwise, simply set this to null, which will result in
         // an error being displayed when the callback function is called below
@@ -24,14 +30,22 @@ const AddBug = (props) => {
                        ? { priority: bugPriority, description: bugDescription }
                        : null;
 
-        // Use the callback function passed in from BugList Component to actually
-        // add the new bug to the list of bugs. Note that if the bug list is successfully
-        // updated, the callback function should return nothing, since all it does is just
-        // call the state update function created by the useState() hook
-        const error = props.handleAddBug(newBug);
 
-        // Update the error field based on the result of calling the update function above.
-        setError(error);
+        // HTTP POST request that sends the new bug to the server.
+        // NOTE: Make sure to use ajax() and not post(), because post()
+        // defaults to contentType of application/x-www-form-urlencoded
+        // and NOT JSON, so using post() will result in req.body always
+        // being an empty object (due to mismatched contentType, since we're 
+        // sending a JSON object here)
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:3000/api/bugs',
+            contentType: 'application/json',
+            data: JSON.stringify(bug),
+            success: (newBug) => {
+                props.setBugs([...bugs, newBug]);
+            }
+        });
 
         // If there was no error, clear the input fields
         if (!error) {

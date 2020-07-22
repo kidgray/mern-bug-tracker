@@ -23,39 +23,13 @@ const BugList = (props) => {
     // to the server (see above).
     const [bugs, setBugs] = useState([]);
 
-    // Handler function for adding new bugs.
-    const handleAddBug = (bug) => {
-        // If no bug was passed
-        if (!bug) {
-            return 'One or more fields were left blank. Please fill out all the fields.';
-        }
-
-        console.log(bug);
-        
-        // HTTP POST request that sends the new bug to the server.
-        // NOTE: Make sure to use ajax() and not post(), because post()
-        // defaults to contentType of application/x-www-form-urlencoded
-        // and NOT JSON, so using post() will result in req.body always
-        // being an empty object (due to mismatched contentType, since we're 
-        // sending a JSON object here)
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:3000/api/bugs',
-            contentType: 'application/json',
-            data: JSON.stringify(bug),
-            success: (newBug) => {
-                setBugs([...bugs, newBug]);
-            }
-        });
-    };
-
     return (
         <div>
             <BugFilter />
 
             <BugTable bugs={bugs} />
 
-            <AddBug handleAddBug={handleAddBug} />
+            <AddBug setBugs={setBugs} />
         </div>
     );
 };
