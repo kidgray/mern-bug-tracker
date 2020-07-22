@@ -27,7 +27,7 @@ const AddBug = (props) => {
         // Otherwise, simply set this to null, which will result in
         // an error being displayed when the callback function is called below
         const newBug = (bugPriority && bugDescription) 
-                       ? { priority: bugPriority, description: bugDescription }
+                       ? { status: 'Open', priority: bugPriority, description: bugDescription }
                        : null;
 
 
@@ -41,9 +41,9 @@ const AddBug = (props) => {
             type: 'POST',
             url: 'http://localhost:3000/api/bugs',
             contentType: 'application/json',
-            data: JSON.stringify(bug),
+            data: JSON.stringify(newBug),
             success: (newBug) => {
-                props.setBugs([...bugs, newBug]);
+                props.setBugs([...props.bugs, newBug]);
             }
         });
 

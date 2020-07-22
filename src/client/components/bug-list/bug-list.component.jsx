@@ -29,7 +29,7 @@ const BugList = (props) => {
 
             <BugTable bugs={bugs} />
 
-            <AddBug setBugs={setBugs} />
+            <AddBug bugs={bugs} setBugs={setBugs} />
         </div>
     );
 };

@@ -44,22 +44,33 @@ app.get('/api/bugs', async (req, res) => {
 app.post('/api/bugs', (req, res) => {
     console.log(req.body);
 
+    // Get the bugs collection from the DB.
+    const bugs = db.collection('bugs');
+
     // Create a variable corresponding to the new bug, which
     // should have been passed in via the HTTP POST request.
     const newBug = req.body;
 
-    // Update the new bug's id to be the bug array's length + 1
-    // newBug.id = bugs.length + 1;
+    // Insert the new bug into the Mongo Database. Because the newBug will not
+    // have a manually defined _id field, mongoDB will automatically assign it
+    // a unique _id
+    bugs.insertOne(newBug, (err, opResult) => {
+        // If the error object is not null, this
+        // will throw an error
+        assert.equal(null, err);
 
-    // Add the new bug to the array of bugs
-    bugs.push(newBug);
+        // If the operation somehow inserted more than
+        // 1 document, this will throw an error
+        assert.equal(1, opResult.insertedCount);
 
-    // Check whether the new bug has been added!
-    console.log(bugs);
+        // If there were no errors, append the unique ObjectId
+        // that MongoDB created to the newBug object
+        newBug.id = opResult.insertedId;
 
-    // res.json() converts the newBug object to JSON by calling JSON.stringify(),
-    // the sends the resulting JSON object as a response!
-    res.json(newBug);
+        // Return the complete newBug object in a response
+        // (by using res.json() to send it as a JSON object, of course)
+        res.json(newBug);
+    });
 });
 
 // Initialize Server & DB connection
