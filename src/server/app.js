@@ -28,16 +28,36 @@ app.get('/', (req, res) => res.send('Server online!'));
 
 // Test endpoint 2
 app.get('/api/bugs', async (req, res) => {
+    console.log(req.query);
+
     // Get the bugs collection from the DB
     const collection = db.collection('bugs');
 
-    console.log(collection.find({}).toArray());
+    // Query filter object
+    const filter = {};
 
-    // Get all the documents (i.e. the individual bugs) from
-    // the bugs collection and put them into an array
-    const bugs = await collection.find({}).toArray();
+    // If a priority query parameter was
+    // passed in, add it to the query filter
+    if (req.query.priority) {
+        filter.priority = req.query.priority;
+    }
 
-    res.send(JSON.stringify(bugs));
+    // If the status query parameter was
+    // passed in, add it to the query filter
+    if (req.query.status) {
+        filter.status = req.query.status;
+    }
+
+    // Get all the documents (i.e. the individual bugs) that satisfy the query
+    // filter from the bugs collection and put them into an array called bugs
+    // (this is done in the toArray() callback function of collection.find()).
+    await collection.find(filter).toArray((err, documents) => {
+        assert.equal(null, err);
+
+        // Return the filtered array of bugs in a JSON response
+        res.json(documents);
+    });
+
 });
 
 // TEST POST endpoint 1

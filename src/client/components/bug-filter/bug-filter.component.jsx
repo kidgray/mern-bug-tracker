@@ -1,9 +1,13 @@
 import React from 'react';
 
-const BugFilter = () => {
+const BugFilter = (props) => {
+    const handleClick = () => {
+        props.setFilter({ priority: 1 });
+    }
+
     return (
         <div>
-            <p>Here's where the filter (presumably a bar) for the bugs will go.</p>
+            <button onClick={handleClick}>Test Filter Functionality</button>
         </div>
     );
 };
