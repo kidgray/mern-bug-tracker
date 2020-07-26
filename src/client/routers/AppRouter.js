@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 // COMPONENTS
 import BugList from '../components/bug-list/bug-list.component.jsx';
@@ -17,7 +17,8 @@ const AppRouter = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path="/bugs" component={BugList} exact={true} />
+                <Redirect exact from='/' to='/bugs' />
+                <Route exact path='/bugs' component={BugList} />
                 <Route component={NotFoundPage} />
             </Switch>
         </BrowserRouter>
