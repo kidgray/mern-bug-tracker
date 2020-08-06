@@ -54,6 +54,8 @@ const BugFilter = (props) => {
     */
 
     const handleSubmit = () => {
+        console.log(priority);
+        console.log(status);
         props.setFilter({ priority, status });
     }
 
@@ -72,9 +74,9 @@ const BugFilter = (props) => {
             Status:
             <select className="filter-field" value={status} onChange={(event) => setStatus(event.target.value)}>
                 <option value=""> All </option>
-                <option value="new"> New </option>
-                <option value="open"> Open </option>
-                <option value="closed"> Closed </option>
+                <option value="New"> New </option>
+                <option value="Open"> Open </option>
+                <option value="Closed"> Closed </option>
             </select>
 
             <button onClick={handleSubmit}>Test Filter Functionality</button>

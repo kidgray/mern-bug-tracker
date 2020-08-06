@@ -23,10 +23,10 @@ app.use(bodyParser.json());
 // Enable all CORS requests
 app.use(cors());
 
-// Test endpoint 1 (root)
+// ROOT ENDPOINT
 app.get('/', (req, res) => res.send('Server online!'));
 
-// Test endpoint 2
+// BUG LIST GET ENDPOINT
 app.get('/api/bugs', async (req, res) => {
     console.log(req.query);
 
@@ -48,11 +48,15 @@ app.get('/api/bugs', async (req, res) => {
         filter.status = req.query.status;
     }
 
+    console.log(filter);
+
     // Get all the documents (i.e. the individual bugs) that satisfy the query
     // filter from the bugs collection and put them into an array called bugs
     // (this is done in the toArray() callback function of collection.find()).
     await collection.find(filter).toArray((err, documents) => {
         assert.equal(null, err);
+
+        console.log(documents);
 
         // Return the filtered array of bugs in a JSON response
         res.json(documents);
@@ -60,7 +64,7 @@ app.get('/api/bugs', async (req, res) => {
 
 });
 
-// TEST POST endpoint 1
+// BUG LIST POST ENDPOINT
 app.post('/api/bugs', (req, res) => {
     console.log(req.body);
 

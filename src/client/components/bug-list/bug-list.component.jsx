@@ -24,20 +24,21 @@ const BugList = (props) => {
     }, []);
 
     // State variable for the list filter.
-    const [filter, setFilter] = useState(null);
+    const [filter, setFilter] = useState({});
 
     // This Effect Hook is technically for the list filter, but in fact it 
-    // is the main loader function for the bug list. Whenever the use specifies
+    // is the main loader function for the bug list. Whenever the user specifies
     // a filter, this will run. It will also run when the user decides to REMOVE
     // a filter (either by submitting a blank filter form OR by pressing a "Show All"
     // button).
     useEffect(() => {
+        console.log(filter);
         loadData(filter);
     }, [filter]);
 
     // This function will be in charge of loading the actual list of bugs. If no
     // filter is specified (by default, filter is null), ALL bugs in the database are loaded.
-    const loadData = (filter = null) => {
+    const loadData = (filter) => {
         // Make an AJAX JSON GET request to the server. 
         // Note that the filter's parameters are passed in the GET
         // request using the spread operator;
