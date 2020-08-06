@@ -1,22 +1,17 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect, useLocation } from 'react-router-dom';
 
 // COMPONENTS
 import BugList from '../components/bug-list/bug-list.component.jsx';
 
-const NotFoundPage = () => {
-    return (
-        <div>
-            <h1>404 NOT FOUND</h1>
-            <h3>The page you requested wasn't found.</h3>
-        </div>
-    );
-};
+// PAGES
+import NotFoundPage from '../pages/not-found-page/not-found-page.component.jsx';
 
 const AppRouter = () => {
     return (
         <BrowserRouter>
             <Switch>
+                <Route exact path='/bugs?status=Open' component={BugList} />
                 <Redirect exact from='/' to='/bugs' />
                 <Route exact path='/bugs' component={BugList} />
                 <Route component={NotFoundPage} />

@@ -13,10 +13,13 @@ import 'normalize.css/normalize.css';
 
 const App = () => {
     return (
-        <AppRouter>
-            <BugTrackerApp />
-        </AppRouter>
+        <BugTrackerApp />
     );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+    <AppRouter>
+        <App />
+    </AppRouter>, 
+    document.getElementById('root')
+);

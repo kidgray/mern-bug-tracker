@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+// HOOKS
+import useQueryString from '../../hooks/useQueryString.jsx';
 
 const BugFilter = (props) => {
     // State Hook for the Priority filter field
@@ -6,6 +9,49 @@ const BugFilter = (props) => {
 
     // State Hook for the Status filter field
     const [status, setStatus] = useState('');
+
+    // Use built-in URLSearchParams API with custom useQueryString
+    // Hook to extract the individual query parameters
+    // as key=value pairs
+    //const queryString = new URLSearchParams(useQueryString());
+
+    // This Effect Hook will set the initial state of the filter
+    // based on the query parameters. This sets INITIAL state, so
+    // it should only run once, upon first mounting the app.
+    /*
+    useEffect(() => {
+        // Get the initial filter params by extracting them
+        // from the query string, if any
+        getInitialFilterParams();
+
+        // Set the filter using the initial values.
+        //props.setFilter(() => { priority, status });
+        handleSubmit();
+    }, []);
+    */
+    
+    /*
+    const getInitialFilterParams = () => {
+        // If the query string contained a priority value
+        if (queryString.has('priority')) {
+            const initialPriority = queryString.get('priority');
+            console.log(initialPriority);
+
+            setPriority(() => initialPriority);
+            console.log(priority);
+        }
+        
+        // If the query string contained a status value, get it
+        if (queryString.has('status')) {
+
+            const initialStatus = queryString.get('status');
+            console.log(initialStatus);
+
+            setStatus(() => initialStatus);
+            console.log(status);
+        }
+    };
+    */
 
     const handleSubmit = () => {
         props.setFilter({ priority, status });
@@ -15,7 +61,7 @@ const BugFilter = (props) => {
         <div>
             <h2>List Filter</h2>
 
-            Status:
+            Priority:
             <select className="filter-field" value={priority} onChange={(event) => setPriority(event.target.value)}>
                 <option value=""> All </option>
                 <option value="1"> 1 </option>
@@ -23,12 +69,12 @@ const BugFilter = (props) => {
                 <option value="3"> 3 </option>
             </select>
 
-            Priority:
+            Status:
             <select className="filter-field" value={status} onChange={(event) => setStatus(event.target.value)}>
                 <option value=""> All </option>
-                <option value="New"> New </option>
-                <option value="Open"> Open </option>
-                <option value="Closed"> Closed </option>
+                <option value="new"> New </option>
+                <option value="open"> Open </option>
+                <option value="closed"> Closed </option>
             </select>
 
             <button onClick={handleSubmit}>Test Filter Functionality</button>
