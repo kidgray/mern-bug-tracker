@@ -10,8 +10,7 @@ import NotFoundPage from '../pages/not-found-page/not-found-page.component.jsx';
 const AppRouter = () => {
     return (
         <BrowserRouter>
-            <Switch>
-                <Route exact path='/bugs?status=Open' component={BugList} />
+            <Switch></Switch>
                 <Redirect exact from='/' to='/bugs' />
                 <Route exact path='/bugs' component={BugList} />
                 <Route component={NotFoundPage} />

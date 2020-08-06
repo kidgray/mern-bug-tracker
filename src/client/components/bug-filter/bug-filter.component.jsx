@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import $ from 'jquery';
 
 // HOOKS
 import useQueryString from '../../hooks/useQueryString.jsx';
@@ -10,52 +12,18 @@ const BugFilter = (props) => {
     // State Hook for the Status filter field
     const [status, setStatus] = useState('');
 
-    // Use built-in URLSearchParams API with custom useQueryString
-    // Hook to extract the individual query parameters
-    // as key=value pairs
-    //const queryString = new URLSearchParams(useQueryString());
-
-    // This Effect Hook will set the initial state of the filter
-    // based on the query parameters. This sets INITIAL state, so
-    // it should only run once, upon first mounting the app.
-    /*
-    useEffect(() => {
-        // Get the initial filter params by extracting them
-        // from the query string, if any
-        getInitialFilterParams();
-
-        // Set the filter using the initial values.
-        //props.setFilter(() => { priority, status });
-        handleSubmit();
-    }, []);
-    */
-    
-    /*
-    const getInitialFilterParams = () => {
-        // If the query string contained a priority value
-        if (queryString.has('priority')) {
-            const initialPriority = queryString.get('priority');
-            console.log(initialPriority);
-
-            setPriority(() => initialPriority);
-            console.log(priority);
-        }
-        
-        // If the query string contained a status value, get it
-        if (queryString.has('status')) {
-
-            const initialStatus = queryString.get('status');
-            console.log(initialStatus);
-
-            setStatus(() => initialStatus);
-            console.log(status);
-        }
-    };
-    */
+    // We will need access to the history in order to modify the URL upon filter application
+    const history = useHistory();
 
     const handleSubmit = () => {
-        console.log(priority);
-        console.log(status);
+        const filter = { priority, status };
+
+        //console.log(history);
+
+        console.log($.param(filter));
+        
+        history.push(`bugs?${$.param(filter)}`);
+
         props.setFilter({ priority, status });
     }
 
@@ -79,7 +47,7 @@ const BugFilter = (props) => {
                 <option value="Closed"> Closed </option>
             </select>
 
-            <button onClick={handleSubmit}>Test Filter Functionality</button>
+            <button onClick={handleSubmit}> Apply Filter </button>
         </div>
     );
 };

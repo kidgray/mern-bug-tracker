@@ -48,7 +48,7 @@ app.get('/api/bugs', async (req, res) => {
         filter.status = req.query.status;
     }
 
-    console.log(filter);
+    //console.log(filter);
 
     // Get all the documents (i.e. the individual bugs) that satisfy the query
     // filter from the bugs collection and put them into an array called bugs
@@ -56,7 +56,7 @@ app.get('/api/bugs', async (req, res) => {
     await collection.find(filter).toArray((err, documents) => {
         assert.equal(null, err);
 
-        console.log(documents);
+        //console.log(documents);
 
         // Return the filtered array of bugs in a JSON response
         res.json(documents);

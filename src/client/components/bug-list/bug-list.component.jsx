@@ -32,7 +32,6 @@ const BugList = (props) => {
     // a filter (either by submitting a blank filter form OR by pressing a "Show All"
     // button).
     useEffect(() => {
-        console.log(filter);
         loadData(filter);
     }, [filter]);
 
