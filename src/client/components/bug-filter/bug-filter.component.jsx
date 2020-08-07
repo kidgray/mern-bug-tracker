@@ -16,15 +16,19 @@ const BugFilter = (props) => {
     const history = useHistory();
 
     const handleSubmit = () => {
+        // Create a filter object from the state variables that correspond
+        // to the filter fields
         const filter = { priority, status };
 
         //console.log(history);
 
-        console.log($.param(filter));
+        //console.log($.param(filter));
         
+        // Add the filter fields and their values to the URL as the Query String
         history.push(`bugs?${$.param(filter)}`);
 
-        props.setFilter({ priority, status });
+        // Set the filter using the new filter object we just made
+        props.setFilter(filter);
     }
 
     return (
