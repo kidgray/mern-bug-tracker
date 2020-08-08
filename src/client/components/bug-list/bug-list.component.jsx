@@ -35,8 +35,6 @@ const BugList = (props) => {
         loadData(filter);
     }, [filter]);
 
-    console.log(props);
-
     // This function will be in charge of loading the actual list of bugs. If no
     // filter is specified (by default, filter is null), ALL bugs in the database are loaded.
     const loadData = (filter) => {

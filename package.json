@@ -18,6 +18,7 @@
     "jquery": "^3.5.1",
     "mongodb": "^3.5.9",
     "node-sass": "^4.14.1",
+    "nodemon": "^2.0.4",
     "normalize.css": "^8.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -32,6 +33,6 @@
     "dev-server": "webpack-dev-server",
     "build": "webpack --mode=production",
     "client": "webpack-dev-server",
-    "server": "node ./src/server/app.js"
+    "server": "nodemon ./src/server/app.js"
   }
 }

@@ -11,8 +11,8 @@ const AppRouter = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Redirect exact from='/' to='/bugs' />
                 <Route exact path='/bugs' component={BugList} />
+                <Redirect exact from='/' to='/bugs' />
                 <Route component={NotFoundPage} />
             </Switch>
         </BrowserRouter>

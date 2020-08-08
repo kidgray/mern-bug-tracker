@@ -5,6 +5,7 @@ const cors = require('cors');
 // FOR MongoDB SERVER: client, assert and DB url
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+const { ObjectID } = require('mongodb');
 const url = 'mongodb://localhost:27017';
 
 // Variable for database
@@ -26,7 +27,7 @@ app.use(cors());
 // ROOT ENDPOINT
 app.get('/', (req, res) => res.send('Server online!'));
 
-// BUG LIST GET ENDPOINT
+// MAIN BUG LIST "GET" ENDPOINT
 app.get('/api/bugs', async (req, res) => {
     console.log(req.query);
 
@@ -48,8 +49,6 @@ app.get('/api/bugs', async (req, res) => {
         filter.status = req.query.status;
     }
 
-    //console.log(filter);
-
     // Get all the documents (i.e. the individual bugs) that satisfy the query
     // filter from the bugs collection and put them into an array called bugs
     // (this is done in the toArray() callback function of collection.find()).
@@ -64,7 +63,7 @@ app.get('/api/bugs', async (req, res) => {
 
 });
 
-// BUG LIST POST ENDPOINT
+// MAIN BUG LIST "POST" ENDPOINT
 app.post('/api/bugs', (req, res) => {
     console.log(req.body);
 
@@ -94,6 +93,55 @@ app.post('/api/bugs', (req, res) => {
         // Return the complete newBug object in a response
         // (by using res.json() to send it as a JSON object, of course)
         res.json(newBug);
+    });
+});
+
+// SINGLE BUG "GET" ENDPOINT
+app.get('/api/bugs/:id', async (req, res) => {
+
+    // Get the requested bug's id from the query parameters
+    let id = req.params.id;
+
+    // Convert the id String into an ObjectID (MongoDB requires an ObjectID
+    // for its queries)
+    let objectID = new ObjectID(id);
+
+    // Get the collection from the DB
+    const collection = db.collection('bugs');
+
+    // Use the ObjectID created above to query the DB for the bug
+    // with the id specified
+    await collection.findOne({ _id: objectID }, (err, document) => {
+        // Test for errors
+        assert.equal(null, err);
+
+        // Return the bug with the specified id (or null if it does not exist)
+        res.json(document);
+    });
+});
+
+// SINGLE BUG "POST" ENDPOINT
+app.put('/api/bugs/:id', (req, res) => {
+    // Same idea as what is done in the GET endpoint above
+    let id = req.params.id;
+    let objectID = new ObjectID(id);
+
+    // Get the collection of bugs
+    const collection = db.collection('bugs');
+
+    // Update the bug with the specified ID to have the fields specified by the
+    // request (note the use of the spread operator with the $set command - apparently this works
+    // inside of the updateOne() MongoDB function, though I'm not sure why I expected it not to)
+    collection.updateOne({ _id: objectID }, { $set: { ...req.body }}, async (err, result) => {
+        assert.equal(null, err);
+
+        // Find the document we just updated and return it
+        await collection.findOne({ _id: objectID }, (err, document) => {
+            assert.equal(null, err);
+
+            // Return the modified document
+            res.json(document);
+        });
     });
 });
 
