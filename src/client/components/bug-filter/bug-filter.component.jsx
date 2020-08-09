@@ -20,10 +20,6 @@ const BugFilter = (props) => {
         // to the filter fields
         const filter = { priority, status };
 
-        //console.log(history);
-
-        //console.log($.param(filter));
-        
         // Add the filter fields and their values to the URL as the Query String
         history.push(`bugs?${$.param(filter)}`);
 

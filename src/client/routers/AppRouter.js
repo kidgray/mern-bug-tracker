@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect, useLocation } from 'react-router-dom';
 
-// COMPONENTS
+// COMPONENTS & PAGES
 import BugList from '../components/bug-list/bug-list.component.jsx';
 
 // PAGES
