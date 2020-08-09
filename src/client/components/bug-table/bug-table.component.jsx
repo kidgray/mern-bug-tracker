@@ -1,11 +1,11 @@
 import React from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+// import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 // COMPONENTS
 import BugRow from '../bug-row/bug-row.component.jsx';
 
 // PAGES
-import BugEditPage from '../../pages/bug-edit-page/bug-edit-page.component.jsx';
+// import BugEditPage from '../../pages/bug-edit-page/bug-edit-page.component.jsx';
 
 const BugTable = (props) => {
     return (

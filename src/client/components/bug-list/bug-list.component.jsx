@@ -37,6 +37,7 @@ const BugList = (props) => {
 
     // This function will be in charge of loading the actual list of bugs. If no
     // filter is specified (by default, filter is null), ALL bugs in the database are loaded.
+    // !!! NOTE: This MAY need to be an async function, since it involves an AJAX request... !!!
     const loadData = (filter) => {
         // Make an AJAX JSON GET request to the server. 
         // Note that the filter's parameters are passed in the GET

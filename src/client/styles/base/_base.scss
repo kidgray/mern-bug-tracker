@@ -52,3 +52,11 @@ button {
 button:disabled {
     cursor: default;
 }
+
+/* 
+    Remove underlining from hyperlinks 
+*/
+
+a {
+    text-decoration: none;
+}

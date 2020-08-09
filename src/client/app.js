@@ -8,6 +8,7 @@ import BugTrackerApp from './components/bug-tracker-app/bug-tracker-app.componen
 import AppRouter from './routers/AppRouter';
 
 // STYLES
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/styles.scss';
 import 'normalize.css/normalize.css';
 

@@ -29,7 +29,6 @@ app.get('/', (req, res) => res.send('Server online!'));
 
 // MAIN BUG LIST "GET" ENDPOINT
 app.get('/api/bugs', async (req, res) => {
-    console.log(req.query);
 
     // Get the bugs collection from the DB
     const collection = db.collection('bugs');
@@ -54,8 +53,6 @@ app.get('/api/bugs', async (req, res) => {
     // (this is done in the toArray() callback function of collection.find()).
     await collection.find(filter).toArray((err, documents) => {
         assert.equal(null, err);
-
-        //console.log(documents);
 
         // Return the filtered array of bugs in a JSON response
         res.json(documents);
@@ -122,6 +119,9 @@ app.get('/api/bugs/:id', async (req, res) => {
 
 // SINGLE BUG "POST" ENDPOINT
 app.put('/api/bugs/:id', (req, res) => {
+    console.log(req.body);
+    console.log(req.params);
+
     // Same idea as what is done in the GET endpoint above
     let id = req.params.id;
     let objectID = new ObjectID(id);

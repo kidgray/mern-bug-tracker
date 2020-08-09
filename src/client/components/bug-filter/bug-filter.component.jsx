@@ -29,25 +29,33 @@ const BugFilter = (props) => {
 
     return (
         <div>
-            <h2>List Filter</h2>
+            <h2 className="display-4">List Filter</h2>
 
-            Priority:
-            <select className="filter-field" value={priority} onChange={(event) => setPriority(event.target.value)}>
-                <option value=""> All </option>
-                <option value="1"> 1 </option>
-                <option value="2"> 2 </option>
-                <option value="3"> 3 </option>
-            </select>
+            <p>
+                <button className="btn btn-primary" type="button" data-toggle="collapse" data-target="#bugFilter" aria-expanded="false" aria-controls="bugFilter">
+                    Show Filter
+                </button>
+            </p>
+            
+            <div className="collapse" id="bugFilter">
+                Priority:
+                <select className="filter-field" value={priority} onChange={(event) => setPriority(event.target.value)}>
+                    <option value=""> All </option>
+                    <option value="1"> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                </select>
 
-            Status:
-            <select className="filter-field" value={status} onChange={(event) => setStatus(event.target.value)}>
-                <option value=""> All </option>
-                <option value="New"> New </option>
-                <option value="Open"> Open </option>
-                <option value="Closed"> Closed </option>
-            </select>
+                Status:
+                <select className="filter-field" value={status} onChange={(event) => setStatus(event.target.value)}>
+                    <option value=""> All </option>
+                    <option value="New"> New </option>
+                    <option value="Open"> Open </option>
+                    <option value="Closed"> Closed </option>
+                </select>
 
-            <button onClick={handleSubmit}> Apply Filter </button>
+                <button className="btn btn-primary filter-btn" onClick={handleSubmit}> Apply Filter </button>
+            </div>
         </div>
     );
 };
