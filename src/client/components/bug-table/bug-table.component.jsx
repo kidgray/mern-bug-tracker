@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Table } from 'react-bootstrap';
 
 // COMPONENTS
 import BugRow from '../bug-row/bug-row.component.jsx';
@@ -9,25 +9,29 @@ import BugRow from '../bug-row/bug-row.component.jsx';
 
 const BugTable = (props) => {
     return (
-        <table className='bug-table'>
-            <tbody>
-                <tr>
-                    <th>ID</th>
-                    <th>Status</th>
-                    <th>Priority</th>
-                    <th>Description</th>
-                </tr>
-                
-                { 
-                    props.bugs.map((bug) => 
-                        <BugRow 
-                            key={bug._id} 
-                            {...bug}
-                        />
-                    )
-                }
-            </tbody>
-        </table>
+        <div className="container">
+            <h2 className="bug-list-header display-2"> Bug List </h2>
+
+            <Table className='bug-table' striped bordered hover responsive variant="dark">
+                <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Description</th>
+                    </tr>
+                    
+                    { 
+                        props.bugs.map((bug) => 
+                            <BugRow 
+                                key={bug._id} 
+                                {...bug}
+                            />
+                        )
+                    }
+                </tbody>
+            </Table>
+        </div>
     );
 };
 

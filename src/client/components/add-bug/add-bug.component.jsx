@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Button, Form } from 'react-bootstrap';
 import $ from 'jquery';
 
 const AddBug = (props) => {
@@ -22,47 +22,52 @@ const AddBug = (props) => {
             // User MUST enter values for both fields. Otherwise, print an error.
             setError('One or more fields were left blank. Please fill out all the fields.');
         }
-
         // If the user entered a valid input, create a new bug object. 
-        // Otherwise, simply set this to null, which will result in
-        // an error being displayed when the callback function is called below
-        const newBug = (bugPriority && bugDescription) 
-                       ? { status: 'Open', priority: bugPriority, description: bugDescription }
-                       : null;
+        else {
+            const newBug = { status: 'Open', priority: bugPriority, description: bugDescription };
 
+            // HTTP POST request that sends the new bug to the server.
+            // NOTE: Make sure to use ajax() and not post(), because post()
+            // defaults to contentType of application/x-www-form-urlencoded
+            // and NOT JSON, so using post() will result in req.body always
+            // being an empty object (due to mismatched contentType, since we're 
+            // sending a JSON object here)
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:3000/api/bugs',
+                contentType: 'application/json',
+                data: JSON.stringify(newBug),
+                success: (newBug) => {
+                    props.setBugs([...props.bugs, newBug]);
+                }
+            });
 
-        // HTTP POST request that sends the new bug to the server.
-        // NOTE: Make sure to use ajax() and not post(), because post()
-        // defaults to contentType of application/x-www-form-urlencoded
-        // and NOT JSON, so using post() will result in req.body always
-        // being an empty object (due to mismatched contentType, since we're 
-        // sending a JSON object here)
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:3000/api/bugs',
-            contentType: 'application/json',
-            data: JSON.stringify(newBug),
-            success: (newBug) => {
-                props.setBugs([...props.bugs, newBug]);
-            }
-        });
+            // Clear the error field
+            setError(() => '');
 
-        // If there was no error, clear the input fields
-        if (!error) {
+            // Clear the input fields
             event.target.elements.priority.value = '';
             event.target.elements.description.value = '';
         }
     }
 
     return (
-        <div>
-            { error && <p className='add-bug-error'>{ error }</p> }
+        <div className="container">
+            <h2 className="add-bug-header display-4"> Add New Bug </h2>
+
+            { error && <p className='add-bug-error text-muted'>{ error }</p> }
             
-            <form className='add-bug' onSubmit={handleAddBug}>
-                <input type='input' className='add-bug__input' name='priority' placeholder='Priority' />
-                <input type="input" className='add-bug__input' name='description' placeholder="Description" />
-                <button className='button'>Add Bug</button>
-            </form>
+            <Form className='add-bug' onSubmit={handleAddBug}>
+                <Form.Group controlId="add-bug-priority">
+                    <Form.Control type='input' className='add-bug__input' name='priority' placeholder='Priority' />
+                </Form.Group>
+
+                <Form.Group controlId="add-bug-description">
+                    <Form.Control type="input" className='add-bug__input' name='description' placeholder="Description" />
+                </Form.Group>
+
+                <Button className='button' variant="primary" type="submit"> Add Bug </Button>
+            </Form>
         </div>
     );
 };

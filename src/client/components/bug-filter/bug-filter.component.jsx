@@ -30,7 +30,7 @@ const BugFilter = (props) => {
 
     return (
         <div className="container">
-            <h2 className="display-3">List Filter</h2>
+            <h2 className="bug-filter-header display-4">List Filter</h2>
 
             <Button className="filter-btn" onClick={() => setOpen(!open)} aria-controls="bug-filter" aria-expanded={open}>
                 Show Filter
@@ -39,7 +39,7 @@ const BugFilter = (props) => {
             <Collapse in={open}>
                 <Form>
                     <div id="bug-filter">
-                        <Form.Group className="filter-field" controlId="form-priority">
+                        <Form.Group className="filter-field" controlId="filter-form-priority">
                             <Form.Label> Priority </Form.Label>
                             <select className="form-control" value={priority} onChange={(event) => setPriority(event.target.value)}>
                                 <option value=""> All </option>
@@ -49,7 +49,7 @@ const BugFilter = (props) => {
                             </select>
                         </Form.Group>
 
-                        <Form.Group className="filter-field" controlId="form-status">
+                        <Form.Group className="filter-field" controlId="filter-form-status">
                             <Form.Label> Status </Form.Label>
                             <select className="form-control" value={status} onChange={(event) => setStatus(event.target.value)}>
                                 <option value=""> All </option>
