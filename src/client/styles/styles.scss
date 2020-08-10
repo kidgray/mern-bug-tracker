@@ -4,5 +4,6 @@
 @import './base/settings.scss';
 
 // COMPONENT STYLES
+@import '../components/bug-list/bug-list.styles.scss';
 @import '../components/bug-table/bug-table.styles.scss';
 @import '../pages/bug-edit-page/bug-edit-page.styles.scss';

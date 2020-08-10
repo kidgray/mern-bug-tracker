@@ -55,7 +55,7 @@ const BugList = (props) => {
     }
 
     return (
-        <div className="container">
+        <div className="container bug-list-container">
             <BugFilter setFilter={setFilter} />
 
             <BugTable bugs={bugs} />
