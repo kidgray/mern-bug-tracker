@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Button, Collapse, Form } from 'react-bootstrap';
 import $ from 'jquery';
-
-// HOOKS
-import useQueryString from '../../hooks/useQueryString.jsx';
 
 const BugFilter = (props) => {
     // State Hook for the Priority filter field
@@ -11,6 +9,9 @@ const BugFilter = (props) => {
 
     // State Hook for the Status filter field
     const [status, setStatus] = useState('');
+
+    // State Hook for the collapsible filter's status (open or closed)
+    const [open, setOpen] = useState(false);
 
     // We will need access to the history in order to modify the URL upon filter application
     const history = useHistory();
@@ -28,34 +29,40 @@ const BugFilter = (props) => {
     }
 
     return (
-        <div>
-            <h2 className="display-4">List Filter</h2>
+        <div className="container">
+            <h2 className="display-3">List Filter</h2>
 
-            <p>
-                <button className="btn btn-primary" type="button" data-toggle="collapse" data-target="#bugFilter" aria-expanded="false" aria-controls="bugFilter">
-                    Show Filter
-                </button>
-            </p>
+            <Button className="filter-btn" onClick={() => setOpen(!open)} aria-controls="bug-filter" aria-expanded={open}>
+                Show Filter
+            </Button>
             
-            <div className="collapse" id="bugFilter">
-                Priority:
-                <select className="filter-field" value={priority} onChange={(event) => setPriority(event.target.value)}>
-                    <option value=""> All </option>
-                    <option value="1"> 1 </option>
-                    <option value="2"> 2 </option>
-                    <option value="3"> 3 </option>
-                </select>
+            <Collapse in={open}>
+                <Form>
+                    <div id="bug-filter">
+                        <Form.Group className="filter-field" controlId="form-priority">
+                            <Form.Label> Priority </Form.Label>
+                            <select className="form-control" value={priority} onChange={(event) => setPriority(event.target.value)}>
+                                <option value=""> All </option>
+                                <option value="1"> 1 </option>
+                                <option value="2"> 2 </option>
+                                <option value="3"> 3 </option>
+                            </select>
+                        </Form.Group>
 
-                Status:
-                <select className="filter-field" value={status} onChange={(event) => setStatus(event.target.value)}>
-                    <option value=""> All </option>
-                    <option value="New"> New </option>
-                    <option value="Open"> Open </option>
-                    <option value="Closed"> Closed </option>
-                </select>
+                        <Form.Group className="filter-field" controlId="form-status">
+                            <Form.Label> Status </Form.Label>
+                            <select className="form-control" value={status} onChange={(event) => setStatus(event.target.value)}>
+                                <option value=""> All </option>
+                                <option value="New"> New </option>
+                                <option value="Open"> Open </option>
+                                <option value="Closed"> Closed </option>
+                            </select>
+                        </Form.Group>
 
-                <button className="btn btn-primary filter-btn" onClick={handleSubmit}> Apply Filter </button>
-            </div>
+                        <Button className="btn btn-primary filter-btn" onClick={handleSubmit}> Apply Filter </Button>
+                    </div>
+                </Form>
+            </Collapse>
         </div>
     );
 };
