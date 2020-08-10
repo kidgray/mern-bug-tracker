@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import { Button, Form } from 'react-bootstrap';
 import $ from 'jquery';
 
 const BugEditPage = () => {
@@ -43,31 +44,38 @@ const BugEditPage = () => {
     }
 
     return (
-        <div>
-            <form className="bug-edit-form">
-                <div className="bug-id">
-                    Bug ID: { id } 
-                </div>
-                
+        <div className="container">
+            <h2 className='edit-header display-3'> Edit Bug </h2>
 
-                Priority: 
-                <select className="bug-field" value={priority} onChange={(event) => setPriority(event.target.value)}>
-                    <option value="1"> 1 </option>
-                    <option value="2"> 2 </option>
-                    <option value="3"> 3 </option>
-                </select>
+            <div className="bug-id">
+                Bug ID: { id } 
+            </div>
 
-                Status:
-                <select className="bug-field" value={status} onChange={(event) => setStatus(event.target.value)}>
-                    <option value="Open"> Open </option>
-                    <option value="Closed"> Closed </option>
-                </select>
+            <Form className="bug-edit-form">
+                <Form.Group controlId="edit-bug-priority">
+                    <Form.Label> Priority </Form.Label>
+                    <select className="bug-field form-control" value={priority} onChange={(event) => setPriority(event.target.value)}>
+                        <option value="1"> 1 </option>
+                        <option value="2"> 2 </option>
+                        <option value="3"> 3 </option>
+                    </select>
+                </Form.Group>
 
-                Description:
-                <input type="text" className="bug-field" value={description} onChange={(event) => setDescription(event.target.value)} />
+                <Form.Group controlId="edit-bug-status">
+                    <Form.Label> Status </Form.Label>
+                    <select className="bug-field form-control" value={status} onChange={(event) => setStatus(event.target.value)}>
+                        <option value="Open"> Open </option>
+                        <option value="Closed"> Closed </option>
+                    </select>
+                </Form.Group>
 
-                <button onClick={handleSubmit}> Submit </button>
-            </form>
+                <Form.Group controlId="edit-bug-description">
+                    <Form.Label> Description </Form.Label>
+                    <Form.Control type="input" className="bug-field" value={description} onChange={(event) => setDescription(event.target.value)} />
+                </Form.Group>
+
+                <Button className="edit-btn" onClick={handleSubmit} variant="primary" type="submit"> Submit </Button>
+            </Form>
 
             <Link to="/bugs" className="home-link"> Back to Bug List </Link>
         </div>
