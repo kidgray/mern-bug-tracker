@@ -5,11 +5,11 @@ import { Route, Switch, Link, useRouteMatch } from 'react-router-dom';
 import BugEditPage from '../../pages/bug-edit-page/bug-edit-page.component.jsx';
 
 const BugRow = (props) => {
-    const { path, url } = useRouteMatch();
+    const { path } = useRouteMatch();
 
     return (
         <tr>
-            <td><Link to={`${path}/${props._id}`}> { props._id } </Link></td>
+            <td><Link to={`${path}/${props.id}`}> { props.id } </Link></td>
             <td>{ props.status }</td>
             <td>{ props.priority }</td>
             <td>{ props.description }</td>

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+// GraphQL & Apollo useQuery hook
+import { useQuery, gql } from '@apollo/client';
+
 // jQuery OBJECT
 import $ from 'jquery';
 
@@ -8,32 +11,37 @@ import BugFilter from '../bug-filter/bug-filter.component.jsx';
 import BugTable from '../bug-table/bug-table.component.jsx';
 import AddBug from '../add-bug/add-bug.component.jsx';
 
-// HOOKS
-import useQueryString from '../../hooks/useQueryString.jsx';
+// GraphQL QUERIES
+const GET_BUGS = gql`
+    # Client-side getBugs query
+    query getBugs($filter: FilterInput) {
+        # Call the server-side getBugs query defined in typeDefs.js
+        getBugs(
+            filter: $filter
+        ) {
+            id
+            status
+            priority
+            description
+        }
+    }
+`;
 
 const BugList = (props) => {
     // State variable for the list of bugs.
     const [bugs, setBugs] = useState([]);
 
-    // This Effect Hook is for when the BugList Component first mounts,
-    // so it should only be run once. It loads ALL bugs in the DB into
-    // the list (no filter parameter is passed to loadData()). Further
-    // loading will be done by the Effect Hook for the Filter State Hook (see below).
-    useEffect(() => {
-        loadData();
-    }, []);
-
     // State variable for the list filter.
     const [filter, setFilter] = useState({});
 
-    // This Effect Hook is technically for the list filter, but in fact it 
-    // is the main loader function for the bug list. Whenever the user specifies
-    // a filter, this will run. It will also run when the user decides to REMOVE
-    // a filter (either by submitting a blank filter form OR by pressing a "Show All"
-    // button).
+    // State variable for errors that occur while loading the list
+    const [errors, setErrors] = useState({});
+
+    // This Effect Hook loads bugs into the list based on the filter that is passed to it.
+    /*
     useEffect(() => {
         loadData(filter);
-    }, [filter]);
+    });
 
     // This function will be in charge of loading the actual list of bugs. If no
     // filter is specified (by default, filter is null), ALL bugs in the database are loaded.
@@ -47,14 +55,35 @@ const BugList = (props) => {
         // If succesful, populate the bugs array
         // with the data received; otherwise, set the bugs array
         // to an empty array.
+
+        /*
         $.getJSON(
             `http://localhost:3000/api/bugs/`, 
             { ...filter },
             (data) => setBugs(data || [])
         );
+        
     }
+    */
 
-    return (
+    const { loading, error, data } = useQuery(GET_BUGS, {
+        onCompleted: (data) => setBugs(data.getBugs || []),
+        onError: (err) => {
+            // graphQLErrors[0] contains the properties needed to access
+            // errors (see GraphQL/Apollo docs).
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
+        },
+        variables: { filter }
+    });
+
+    // If the list is loading, display a spinner
+    if (loading) return <div className="container spinner-border spinner-size" />;
+
+    // If there were any errors during loading, display them
+    else if (error) return Object.values(errors).map(error => <p key={error}>{ error }</p>);
+
+    // Otherwise, display the list
+    else return (
         <div className="container bug-list-container">
             <BugFilter setFilter={setFilter} />
 

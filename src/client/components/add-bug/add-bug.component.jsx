@@ -1,10 +1,56 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import $ from 'jquery';
+import { useMutation, gql } from '@apollo/client'
 
 const AddBug = (props) => {
     // State variable for errors. Will be used for input validation.
     const [error, setError] = useState(null);
+
+    // State variable for the fields of the add bug form
+    const [fields, setFields] = useState({
+        priority: '',
+        description: ''
+    });
+
+    // GraphQL MUTATIONS
+    const ADD_BUG = gql`
+        # Client-side addBug mutation
+        mutation addBug(
+            $status: String!
+            $priority: String!
+            $description: String!
+        ) {
+            # Call the server-side addBug mutation defined in typeDefs.js
+            addBug(bugInput: {
+                status: $status
+                priority: $priority
+                description: $description
+            }) {
+                id
+                status
+                priority
+                description
+            }
+        }
+    `;
+
+    // Use the useMutation Hook to obtain the mutate function and mutation status object
+    const [addBug, { loading }] = useMutation(ADD_BUG, {
+        update(_, result) {
+            console.log(result);
+
+
+        },
+        onError: (err) => {
+            console.log(err.graphQLErrors[0].extensions.exception.errors);
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
+        },
+        variables: {
+            status: 'Open',
+            ...fields
+        }
+    });
 
     // Handler function for adding a new bug. It will call
     // the handleAddBug function passed in via props from BugList
@@ -12,6 +58,7 @@ const AddBug = (props) => {
         // Prevent default form submission behavior
         event.preventDefault();
 
+        /*
         // Extract the new bug's info from the input fields, making sure
         // to remove any extra whitespace from the beginning and end
         const bugPriority = event.target.elements.priority.value.trim();
@@ -49,7 +96,19 @@ const AddBug = (props) => {
             event.target.elements.priority.value = '';
             event.target.elements.description.value = '';
         }
-    }
+        */
+
+        addBug();
+    };
+
+    const onChange = (event) => {
+        // Use computer property keys to make the onChange function universally
+        // compatible with all current and future form fields
+        setFields({
+            ...fields,
+            [event.target.name]: event.target.value
+        });
+    };
 
     return (
         <div className="container">
@@ -59,11 +118,23 @@ const AddBug = (props) => {
             
             <Form className='add-bug' onSubmit={handleAddBug}>
                 <Form.Group controlId="add-bug-priority">
-                    <Form.Control type='input' className='add-bug__input' name='priority' placeholder='Priority' />
+                    <Form.Control 
+                        type='input' 
+                        className='add-bug__input' 
+                        name='priority' 
+                        placeholder='Priority' 
+                        onChange={onChange}
+                    />
                 </Form.Group>
 
                 <Form.Group controlId="add-bug-description">
-                    <Form.Control type="input" className='add-bug__input' name='description' placeholder="Description" />
+                    <Form.Control 
+                        type="input" 
+                        className='add-bug__input' 
+                        name='description' 
+                        placeholder="Description" 
+                        onChange={onChange}
+                    />
                 </Form.Group>
 
                 <Button className='button' variant="primary" type="submit"> Add Bug </Button>

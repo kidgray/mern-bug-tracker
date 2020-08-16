@@ -6,14 +6,50 @@ const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const { ObjectID } = require('mongodb');
-const url = 'mongodb://localhost:27017';
+const mongoose = require('mongoose');
+const url = 'mongodb://localhost:27017/bugtrackerdb';
+
+// FOR Apollo Server
+const { ApolloServer, gql } = require('apollo-server');
+
+// Schema & Resolvers for GraphQL
+const typeDefs = require('./graphql/typeDefs');
+const resolvers = require('./graphql/resolvers/index.js');
+
+// Port that will be used w/ server
+const port = 3000;
+
+// Instantiate Apollo Server
+const server = new ApolloServer({ 
+    typeDefs, 
+    resolvers 
+});
 
 // Variable for database
 let db;
 
-// Variables for Express connection
+// Connect to MongoDB
+(async () => mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true})
+.then(() => {
+    // Announce MongoDB connection success
+    console.log('MongoDB connected successfully!');
+
+    // Retrieve the Bug Tracker DB for use with 
+    // future queries
+    db = mongoose.connection;
+
+
+    // Start the Apollo Server
+    return server.listen({ port });
+})
+.then((res) => {
+    console.log(`Server running at ${res.url}`);
+}))();
+
+
+/*
+// Variable for Express connection
 const app = express();
-const port = 3000;
 
 // Serve a static HTML file
 app.use(express.static('../../public'));
@@ -167,3 +203,5 @@ app.put('/api/bugs/:id', (req, res) => {
         console.log(error);
     }
 })();
+
+*/
