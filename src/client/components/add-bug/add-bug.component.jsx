@@ -5,7 +5,7 @@ import { useMutation, gql } from '@apollo/client'
 
 const AddBug = (props) => {
     // State variable for errors. Will be used for input validation.
-    const [error, setError] = useState(null);
+    const [errors, setErrors] = useState({});
 
     // State variable for the fields of the add bug form
     const [fields, setFields] = useState({
@@ -38,12 +38,17 @@ const AddBug = (props) => {
     // Use the useMutation Hook to obtain the mutate function and mutation status object
     const [addBug, { loading }] = useMutation(ADD_BUG, {
         update(_, result) {
-            console.log(result);
+            // Store the newly added bug so we can pass it to the 
+            // State mutator function of the bugs array
+            const newBug = result.data.addBug;
 
+            // Add the new bug to the array of bugs (i.e. the bugs state variable)
+            props.setBugs([ ...props.bugs, newBug ]);
 
+            // Since we successfully added a new bug, clear the error field
+            setErrors({});
         },
         onError: (err) => {
-            console.log(err.graphQLErrors[0].extensions.exception.errors);
             setErrors(err.graphQLErrors[0].extensions.exception.errors);
         },
         variables: {
@@ -91,14 +96,18 @@ const AddBug = (props) => {
 
             // Clear the error field
             setError(() => '');
+        }
+        */
 
+        // Execute the addBug Mutation
+        addBug();
+
+        // If there were no errors
+        if (Object.keys(errors).length === 0) {
             // Clear the input fields
             event.target.elements.priority.value = '';
             event.target.elements.description.value = '';
         }
-        */
-
-        addBug();
     };
 
     const onChange = (event) => {
@@ -113,8 +122,12 @@ const AddBug = (props) => {
     return (
         <div className="container">
             <h2 className="add-bug-header display-4"> Add New Bug </h2>
-
-            { error && <p className='add-bug-error text-muted'>{ error }</p> }
+            
+            { 
+                Object.keys(errors).length > 0 && (
+                    Object.values(errors).map((error) => <p key={error} className='add-bug-error text-muted'>{ error }</p>)
+                )
+            }
             
             <Form className='add-bug' onSubmit={handleAddBug}>
                 <Form.Group controlId="add-bug-priority">
@@ -122,7 +135,8 @@ const AddBug = (props) => {
                         type='input' 
                         className='add-bug__input' 
                         name='priority' 
-                        placeholder='Priority' 
+                        placeholder='Priority'
+                        value={fields.priority} 
                         onChange={onChange}
                     />
                 </Form.Group>
@@ -132,7 +146,8 @@ const AddBug = (props) => {
                         type="input" 
                         className='add-bug__input' 
                         name='description' 
-                        placeholder="Description" 
+                        placeholder="Description"
+                        value={fields.description}
                         onChange={onChange}
                     />
                 </Form.Group>
