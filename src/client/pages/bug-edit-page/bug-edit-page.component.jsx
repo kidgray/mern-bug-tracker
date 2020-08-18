@@ -3,6 +3,8 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import $ from 'jquery';
 
+import { useMutation, gql } from '@apollo/client';
+
 const BugEditPage = () => {
     // State Hook for the bug priority. Defaults to Priority 1 (highest).
     const [priority, setPriority] = useState("1");
@@ -19,29 +21,53 @@ const BugEditPage = () => {
     // Hook for the URL Parameters (used to get the bug's id)
     const { id } = useParams();
 
+    // GraphQL MUTATIONS
+    const UPDATE_BUG = gql`
+        mutation updateBug(
+            $id: String!
+            $status: String!
+            $priority: String!
+            $description: String!
+        ) {
+            updateBug(
+                id: $id
+                bugInput: {
+                    status: $status
+                    priority: $priority
+                    description: $description
+                }
+            ) {
+                id
+                status
+                priority
+                description
+            }
+        }
+    `;
+
+    // Use the useMutation hook to get the mutate function and the mutation status object
+    const [updateBug, { loading }] = useMutation(UPDATE_BUG, {
+        update(cache, result) {
+            console.log(cache);
+
+            // Return to the bug list upon successful update of bug info.
+            history.push('/bugs');
+        },
+        variables: {
+            id,
+            status,
+            priority,
+            description
+        }
+    });
+
     const handleSubmit = (event) => {
         // Prevent default form submission behavior
         event.preventDefault();
 
-        // Create an object containing the new values for the fields
-        // of the edited bug
-        const editedBug = {
-            priority,
-            status,
-            description
-        };
-
-        // TODO: USE AJAX PUT API TO SUBMIT THE FORM INFORMATION AND EDIT THE BUG.
-        $.ajax({
-            method: 'PUT',
-            url: `http://localhost:3000/api/bugs/${id}`,
-            contentType: 'application/json',
-            data: JSON.stringify(editedBug)
-        });
-
-        // TODO: RETURN TO THE BUG LIST UPON SUCCESSFUL UPDATE OF BUG INFO.
-        history.push('/bugs');
-    }
+        // Execute the updateBug mutation
+        updateBug();
+    };
 
     return (
         <div className="container">

@@ -37,7 +37,9 @@ const AddBug = (props) => {
 
     // Use the useMutation Hook to obtain the mutate function and mutation status object
     const [addBug, { loading }] = useMutation(ADD_BUG, {
-        update(_, result) {
+        update(cache, result) {
+            console.log(cache);
+
             // Store the newly added bug so we can pass it to the 
             // State mutator function of the bugs array
             const newBug = result.data.addBug;
@@ -52,7 +54,7 @@ const AddBug = (props) => {
             setErrors(err.graphQLErrors[0].extensions.exception.errors);
         },
         variables: {
-            status: 'Open',
+            status: 'New',
             ...fields
         }
     });
@@ -62,42 +64,6 @@ const AddBug = (props) => {
     const handleAddBug = (event) => {
         // Prevent default form submission behavior
         event.preventDefault();
-
-        /*
-        // Extract the new bug's info from the input fields, making sure
-        // to remove any extra whitespace from the beginning and end
-        const bugPriority = event.target.elements.priority.value.trim();
-        const bugDescription = event.target.elements.description.value.trim();
-
-        // If either the priority or description fields were left blank
-        if (!bugPriority || !bugDescription) {
-            // User MUST enter values for both fields. Otherwise, print an error.
-            setError('One or more fields were left blank. Please fill out all the fields.');
-        }
-        // If the user entered a valid input, create a new bug object. 
-        else {
-            const newBug = { status: 'Open', priority: bugPriority, description: bugDescription };
-
-            // HTTP POST request that sends the new bug to the server.
-            // NOTE: Make sure to use ajax() and not post(), because post()
-            // defaults to contentType of application/x-www-form-urlencoded
-            // and NOT JSON, so using post() will result in req.body always
-            // being an empty object (due to mismatched contentType, since we're 
-            // sending a JSON object here)
-            $.ajax({
-                type: 'POST',
-                url: 'http://localhost:3000/api/bugs',
-                contentType: 'application/json',
-                data: JSON.stringify(newBug),
-                success: (newBug) => {
-                    props.setBugs([...props.bugs, newBug]);
-                }
-            });
-
-            // Clear the error field
-            setError(() => '');
-        }
-        */
 
         // Execute the addBug Mutation
         addBug();

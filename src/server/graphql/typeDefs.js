@@ -26,7 +26,8 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        addBug(bugInput: BugInput): Bug!
+        addBug(bugInput: BugInput!): Bug!
+        updateBug(id: String!, bugInput: BugInput!): Bug
     }
 `;
 

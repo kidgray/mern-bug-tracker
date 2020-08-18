@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { UserInputError } = require('apollo-server');
 
 // Import the Bug Model (made w/ Mongoose)
@@ -26,8 +27,6 @@ module.exports = {
                     queryFilter.status = args.filter.status;
                 }
 
-                console.log(queryFilter);
-
                 // Use Mongoose's find() method for Models, which uses the same syntax as regular MongoDB
                 const bugs = await Bug.find(queryFilter);
 
@@ -44,7 +43,7 @@ module.exports = {
     Mutation: {
         async addBug(
             _, 
-            { bugInput: { status, priority, description } }, 
+            { bugInput: { status, priority, description } } 
         ) {
             // Validate user input
             const { errors, valid } = validateBugInputs(status, priority, description);
@@ -74,6 +73,32 @@ module.exports = {
                 id: res._id,
                 ...res._doc
             };
+        },
+        async updateBug(
+            _,
+            { id: id, bugInput: { status, priority, description } }
+        ) {
+            const { errors, valid } = validateBugInputs(status, priority, description);
+
+            if (!valid) {
+                throw new UserInputError('Errors: ', { errors });
+            }
+
+            // Convert the String ID to an ObjectID using the mongoose library
+            const objectID = mongoose.Types.ObjectId(id);
+
+            // Find the document with the corresponding id (no need to check if it exists - the only
+            // way to access the "edit bug" feature is by clicking on a bug's id on the bug list, so 
+            // we know it definitely exists)
+            const doc = await Bug.findOne({ _id: objectID });
+
+            // Update the bug's fields
+            doc.status = status;
+            doc.priority = priority;
+            doc.description = description;
+
+            // Save the results to the DB
+            await doc.save();
         }
     }
 }

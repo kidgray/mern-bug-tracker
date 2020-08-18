@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // GraphQL & Apollo useQuery hook
 import { useQuery, gql } from '@apollo/client';
@@ -37,43 +37,18 @@ const BugList = (props) => {
     // State variable for errors that occur while loading the list
     const [errors, setErrors] = useState({});
 
-    // This Effect Hook loads bugs into the list based on the filter that is passed to it.
-    /*
-    useEffect(() => {
-        loadData(filter);
-    });
-
-    // This function will be in charge of loading the actual list of bugs. If no
-    // filter is specified (by default, filter is null), ALL bugs in the database are loaded.
-    // !!! NOTE: This MAY need to be an async function, since it involves an AJAX request... !!!
-    const loadData = (filter) => {
-        // Make an AJAX JSON GET request to the server. 
-        // Note that the filter's parameters are passed in the GET
-        // request using the spread operator;
-        // this will append the query string to the URL, since this is
-        // a GET request. 
-        // If succesful, populate the bugs array
-        // with the data received; otherwise, set the bugs array
-        // to an empty array.
-
-        /*
-        $.getJSON(
-            `http://localhost:3000/api/bugs/`, 
-            { ...filter },
-            (data) => setBugs(data || [])
-        );
-        
-    }
-    */
-
     const { loading, error, data } = useQuery(GET_BUGS, {
-        onCompleted: (data) => setBugs(data.getBugs || []),
+        onCompleted: () => {
+            console.log(data);
+            setBugs(data.getBugs);
+        },
         onError: (err) => {
             // graphQLErrors[0] contains the properties needed to access
             // errors (see GraphQL/Apollo docs).
             setErrors(err.graphQLErrors[0].extensions.exception.errors);
         },
-        variables: { filter }
+        variables: { filter },
+        pollInterval: 500
     });
 
     // If the list is loading, display a spinner
