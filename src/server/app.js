@@ -30,7 +30,6 @@ app.get('/', (req, res) => res.send('Server online!'));
 
 // MAIN BUG LIST "GET" ENDPOINT
 app.get('/api/bugs', async (req, res) => {
-
     // Get the bugs collection from the DB
     const collection = db.collection('bugs');
 
@@ -96,7 +95,6 @@ app.post('/api/bugs', (req, res) => {
 
 // SINGLE BUG "GET" ENDPOINT
 app.get('/api/bugs/:id', async (req, res) => {
-
     // Get the requested bug's id from the query parameters
     let id = req.params.id;
 
@@ -120,9 +118,6 @@ app.get('/api/bugs/:id', async (req, res) => {
 
 // SINGLE BUG "POST" ENDPOINT
 app.put('/api/bugs/:id', (req, res) => {
-    console.log(req.body);
-    console.log(req.params);
-
     // Same idea as what is done in the GET endpoint above
     let id = req.params.id;
     let objectID = new ObjectID(id);
@@ -158,9 +153,7 @@ app.put('/api/bugs/:id', (req, res) => {
             // Retrieve the Bug Tracker DB and assign it to db
             // for future use
             db = client.db("bugTrackerDB");
-            console.log(client.db("bugTrackerDB"));
             
-
             // Start connection to server
             app.listen(port, () => console.log(`Server listening at http://localhost:${port}`));
         });
