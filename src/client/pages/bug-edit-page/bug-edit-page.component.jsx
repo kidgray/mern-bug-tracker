@@ -31,7 +31,7 @@ const BugEditPage = () => {
             description
         };
 
-        // TODO: USE AJAX PUT API TO SUBMIT THE FORM INFORMATION AND EDIT THE BUG.
+        // USE AJAX PUT API TO SUBMIT THE FORM INFORMATION AND EDIT THE BUG.
         $.ajax({
             method: 'PUT',
             url: `http://localhost:3000/api/bugs/${id}`,
@@ -39,7 +39,7 @@ const BugEditPage = () => {
             data: JSON.stringify(editedBug)
         });
 
-        // TODO: RETURN TO THE BUG LIST UPON SUCCESSFUL UPDATE OF BUG INFO.
+        // RETURN TO THE BUG LIST UPON SUCCESSFUL UPDATE OF BUG INFO.
         history.push('/bugs');
     }
 

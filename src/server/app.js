@@ -2,11 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-// FOR MongoDB SERVER: client, assert and DB url
+// FOR MongoDB SERVER: client, assert and MongoDB Connection String (URL)
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const { ObjectID } = require('mongodb');
-const url = 'mongodb://localhost:27017';
+const { MONGODB_CONN_STRING } = require('../../config');
+//const url = 'mongodb://localhost:27017';
 
 // Variable for database
 let db;
@@ -149,14 +150,16 @@ app.put('/api/bugs/:id', (req, res) => {
 (async () => {
     // Create new MongoDB client object. useUnifiedTopology must be
     // set to true to avoid DeprecationWarning when running server from Node.js
-    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+    const client = new MongoClient(MONGODB_CONN_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
 
     try {
         // Attempt to connect to server using MongoDB client object
         await client.connect((err, dbConnection) => {
             // Retrieve the Bug Tracker DB and assign it to db
             // for future use
-            db = client.db("bugtrackerdb");
+            db = client.db("bugTrackerDB");
+            console.log(client.db("bugTrackerDB"));
+            
 
             // Start connection to server
             app.listen(port, () => console.log(`Server listening at http://localhost:${port}`));
