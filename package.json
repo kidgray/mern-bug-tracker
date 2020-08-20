@@ -31,10 +31,10 @@
     "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
-    "start": "nodemon ./src/server/app.js",
+    "start": "node ./src/server/app.js",
     "dev-server": "webpack-dev-server",
     "build": "webpack --mode=production",
     "client": "webpack-dev-server",
-    "server": "node ./src/server/app.js"
+    "server": "nodemon ./src/server/app.js"
   }
 }
