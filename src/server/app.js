@@ -155,7 +155,7 @@ app.put('/api/bugs/:id', (req, res) => {
             db = client.db("bugTrackerDB");
             
             // Start connection to server
-            app.listen(port, () => console.log(`Server listening at http://localhost:${port}`));
+            app.listen(port, () => console.log(`Server listening . . .`));
         });
     }
     // If connection attempt fails, log error to console
