@@ -35,6 +35,7 @@
     "dev-server": "webpack-dev-server",
     "build": "webpack --mode=production",
     "client": "webpack-dev-server",
-    "server": "nodemon ./src/server/app.js"
+    "server": "nodemon ./src/server/app.js",
+    "heroku-postbuild": "yarn run build"
   }
 }
