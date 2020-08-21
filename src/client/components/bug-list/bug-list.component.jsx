@@ -48,7 +48,7 @@ const BugList = (props) => {
         // with the data received; otherwise, set the bugs array
         // to an empty array.
         $.getJSON(
-            `/api/bugs/`, 
+            `https://confident-carson-49b1d7.netlify.app/api/bugs/`, 
             { ...filter },
             (data) => setBugs(data || [])
         );
