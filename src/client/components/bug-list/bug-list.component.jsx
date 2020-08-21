@@ -8,9 +8,6 @@ import BugFilter from '../bug-filter/bug-filter.component.jsx';
 import BugTable from '../bug-table/bug-table.component.jsx';
 import AddBug from '../add-bug/add-bug.component.jsx';
 
-// HOOKS
-import useQueryString from '../../hooks/useQueryString.jsx';
-
 const BugList = (props) => {
     // State variable for the list of bugs.
     const [bugs, setBugs] = useState([]);
