@@ -22,7 +22,7 @@ const BugFilter = (props) => {
         const filter = { priority, status };
 
         // Add the filter fields and their values to the URL as the Query String
-        history.push(`bugs?${$.param(filter)}`);
+        history.push(`/api/bugs?${$.param(filter)}`);
 
         // Set the filter using the new filter object we just made
         props.setFilter(filter);

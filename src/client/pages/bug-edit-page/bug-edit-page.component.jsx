@@ -40,7 +40,7 @@ const BugEditPage = () => {
         });
 
         // RETURN TO THE BUG LIST UPON SUCCESSFUL UPDATE OF BUG INFO.
-        history.push('/bugs');
+        history.push('/api/bugs');
     }
 
     return (
