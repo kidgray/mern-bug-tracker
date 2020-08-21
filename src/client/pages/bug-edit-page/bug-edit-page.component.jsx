@@ -77,7 +77,7 @@ const BugEditPage = () => {
                 <Button className="edit-btn" onClick={handleSubmit} variant="primary" type="submit"> Submit </Button>
             </Form>
 
-            <Link to="/bugs" className="home-link"> Back to Bug List </Link>
+            <Link to="/api/bugs" className="home-link"> Back to Bug List </Link>
         </div>
     )
 };
