@@ -48,7 +48,7 @@ const BugList = (props) => {
         // with the data received; otherwise, set the bugs array
         // to an empty array.
         $.getJSON(
-            `/api/bugs/`, 
+            `https://mern-bug-tracker.herokuapp.com/api/bugs/`, 
             { ...filter },
             (data) => setBugs(data || [])
         );

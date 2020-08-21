@@ -34,7 +34,7 @@ const BugEditPage = () => {
         // USE AJAX PUT API TO SUBMIT THE FORM INFORMATION AND EDIT THE BUG.
         $.ajax({
             method: 'PUT',
-            url: `/api/bugs/${id}`,
+            url: `https://mern-bug-tracker.herokuapp.com/api/bugs/${id}`,
             contentType: 'application/json',
             data: JSON.stringify(editedBug)
         });

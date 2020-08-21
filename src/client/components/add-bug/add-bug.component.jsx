@@ -34,7 +34,7 @@ const AddBug = (props) => {
             // sending a JSON object here)
             $.ajax({
                 type: 'POST',
-                url: '/api/bugs',
+                url: 'https://mern-bug-tracker.herokuapp.com/api/bugs',
                 contentType: 'application/json',
                 data: JSON.stringify(newBug),
                 success: (newBug) => {
