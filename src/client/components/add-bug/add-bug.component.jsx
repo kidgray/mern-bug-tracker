@@ -34,7 +34,7 @@ const AddBug = (props) => {
             // sending a JSON object here)
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:3000/api/bugs',
+                url: '/api/bugs',
                 contentType: 'application/json',
                 data: JSON.stringify(newBug),
                 success: (newBug) => {

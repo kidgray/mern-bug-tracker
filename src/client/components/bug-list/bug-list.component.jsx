@@ -48,7 +48,7 @@ const BugList = (props) => {
         // with the data received; otherwise, set the bugs array
         // to an empty array.
         $.getJSON(
-            `http://localhost:3000/api/bugs/`, 
+            `/api/bugs/`, 
             { ...filter },
             (data) => setBugs(data || [])
         );

@@ -34,7 +34,7 @@ const BugEditPage = () => {
         // USE AJAX PUT API TO SUBMIT THE FORM INFORMATION AND EDIT THE BUG.
         $.ajax({
             method: 'PUT',
-            url: `http://localhost:3000/api/bugs/${id}`,
+            url: `/api/bugs/${id}`,
             contentType: 'application/json',
             data: JSON.stringify(editedBug)
         });
