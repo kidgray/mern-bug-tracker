@@ -5,6 +5,10 @@
   "main": "index.js",
   "author": "Micah Allauca",
   "license": "MIT",
+  "engines": {
+    "node": "16.x",
+    "yarn": "1.x"
+  },
   "dependencies": {
     "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
