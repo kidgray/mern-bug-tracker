@@ -36,6 +36,13 @@ app.get('/api/bugs', async (req, res) => {
     // Query filter object
     const filter = {};
 
+    // Write CORS headers
+    res.writeHead(200, {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST",
+        "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
+    });
+
     // If a priority query parameter was
     // passed in, add it to the query filter
     if (req.query.priority) {
@@ -70,6 +77,13 @@ app.post('/api/bugs', (req, res) => {
     // Create a variable corresponding to the new bug, which
     // should have been passed in via the HTTP POST request.
     const newBug = req.body;
+
+    // Write CORS headers
+    res.writeHead(200, {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST",
+        "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
+    });
 
     // Insert the new bug into the Mongo Database. Because the newBug will not
     // have a manually defined _id field, mongoDB will automatically assign it
