@@ -26,18 +26,11 @@ module.exports = [
             ]
         },
         devServer: {
-            contentBase: path.join(__dirname, 'public'),
+            static: {
+                directory: path.join(__dirname, "public")
+            },
             historyApiFallback: true
         },
-        devtool: 'cheap-module-eval-source-map'
-    }/*,
-    {
-        name: 'server',
-        target: 'node',
-        entry: './src/server/app.js',
-        output: {
-            filename: 'bundle.js',
-            path: path.resolve(__dirname, 'public/server')
-        }
-    }*/
+        devtool: 'eval-source-map'
+    }
 ];
