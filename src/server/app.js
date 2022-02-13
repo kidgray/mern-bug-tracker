@@ -16,14 +16,14 @@ let db;
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Enable all CORS requests
+app.use(cors());
+
 // Serve a static HTML file
 app.use(express.static('../../public'));
 
 // Use body-parser for all routing
 app.use(bodyParser.json());
-
-// Enable all CORS requests
-app.use(cors());
 
 // ROOT ENDPOINT
 app.get('/', (req, res) => res.send('Server online!'));

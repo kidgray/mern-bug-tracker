@@ -36,6 +36,9 @@ const AddBug = (props) => {
                 type: 'POST',
                 url: 'https://mern-bug-tracker.herokuapp.com/api/bugs',
                 contentType: 'application/json',
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                },
                 data: JSON.stringify(newBug),
                 success: (newBug) => {
                     props.setBugs([...props.bugs, newBug]);
