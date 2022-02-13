@@ -25,9 +25,8 @@
   },
   "scripts": {
     "start": "node ./src/server/app.js",
-    "dev-server": "webpack-dev-server",
     "build": "webpack --mode=production",
-    "client": "webpack-dev-server",
+    "client": "webpack serve --mode=development",
     "server": "nodemon ./src/server/app.js",
     "heroku-postbuild": "yarn install && yarn build"
   },
