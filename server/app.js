@@ -6,7 +6,7 @@ const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const { ObjectID } = require('mongodb');
-const { MONGODB_CONN_STRING } = require('../../config.js');
+const { MONGODB_CONN_STRING } = require('./config.js');
 //const url = 'mongodb://localhost:27017';
 
 // Variable for database
