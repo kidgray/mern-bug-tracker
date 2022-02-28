@@ -6,7 +6,8 @@ const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const { ObjectID } = require('mongodb');
-const { MONGODB_CONN_STRING } = require('./config.js');
+//const { MONGODB_CONN_STRING } = require('./config.js');
+const MONGODB_CONN_STRING_HEROKU_CONFIG_VAR = process.env.MONGODB_CONN_STRING;
 //const url = 'mongodb://localhost:27017';
 
 // Variable for database
@@ -71,17 +72,10 @@ app.post('/api/bugs', (req, res) => {
     // should have been passed in via the HTTP POST request.
     const newBug = req.body;
 
-    // Write CORS headers
-    res.writeHead(200, {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST",
-        "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
-    });
-
     // Insert the new bug into the Mongo Database. Because the newBug will not
     // have a manually defined _id field, mongoDB will automatically assign it
     // a unique _id
-    bugs.insertOne(newBug, (err, opResult) => {
+    bugs.insertMany([newBug], (err, opResult) => {
         // If the error object is not null, this
         // will throw an error
         assert.equal(null, err);
@@ -152,7 +146,7 @@ app.put('/api/bugs/:id', (req, res) => {
 (async () => {
     // Create new MongoDB client object. useUnifiedTopology must be
     // set to true to avoid DeprecationWarning when running server from Node.js
-    const client = new MongoClient(MONGODB_CONN_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
+    const client = new MongoClient(MONGODB_CONN_STRING_HEROKU_CONFIG_VAR, { useNewUrlParser: true, useUnifiedTopology: true });
 
     try {
         // Attempt to connect to server using MongoDB client object
