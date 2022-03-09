@@ -29,7 +29,7 @@
     "start": "node ./src/server/app.js",
     "build": "webpack --mode=production",
     "client": "webpack serve --mode=development",
-    "server": "nodemon ./src/server/app.js",
+    "server": "nodemon ../server/app.js",
     "heroku-postbuild": "yarn install && yarn build"
   },
   "devDependencies": {}

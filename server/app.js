@@ -6,7 +6,7 @@ const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const { ObjectID } = require('mongodb');
-//const { MONGODB_CONN_STRING } = require('./config.js');
+const { MONGODB_CONN_STRING } = require('./config.js');
 const MONGODB_CONN_STRING_HEROKU_CONFIG_VAR = process.env.MONGODB_CONN_STRING;
 //const url = 'mongodb://localhost:27017';
 
@@ -15,7 +15,7 @@ let db;
 
 // Variables for Express connection
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5050;
 
 // Enable all CORS requests
 app.use(cors());
@@ -146,7 +146,7 @@ app.put('/api/bugs/:id', (req, res) => {
 (async () => {
     // Create new MongoDB client object. useUnifiedTopology must be
     // set to true to avoid DeprecationWarning when running server from Node.js
-    const client = new MongoClient(MONGODB_CONN_STRING_HEROKU_CONFIG_VAR, { useNewUrlParser: true, useUnifiedTopology: true });
+    const client = new MongoClient(MONGODB_CONN_STRING_HEROKU_CONFIG_VAR || MONGODB_CONN_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
 
     try {
         // Attempt to connect to server using MongoDB client object
@@ -156,7 +156,7 @@ app.put('/api/bugs/:id', (req, res) => {
             db = client.db("bugTrackerDB");
             
             // Start connection to server
-            app.listen(port, () => console.log(`Server listening . . .`));
+            app.listen(port, () => console.log(`Server listening on port ${port}. . .`));
         });
     }
     // If connection attempt fails, log error to console
